@@ -13,6 +13,7 @@ namespace InterfaceApp1
         int getAge();
         string makeSound();
         void setSound(string sound);
+        IList<string> GetAllPuppies();
     }
 
     public abstract class Animal : Mammal
@@ -58,6 +59,17 @@ namespace InterfaceApp1
         {
             Sound = sound;
         }
+
+        public IList<string> GetAllPuppies()
+        {
+            List<string> puppies = new List<string>();
+            puppies.Add("Tiny");
+            puppies.Add("Medium");
+            puppies.Add("Large");
+            return puppies;
+        }
+
+
     }
 
     public abstract class Dog : Animal
@@ -135,11 +147,21 @@ namespace InterfaceApp1
     {
         static void Main(string[] args)
         {
-            GoldenRetriever dog1 = new GoldenRetriever(5);
+            List<GoldenRetriever> dogs = new List<GoldenRetriever>();
+            for (int i = 0; i < 10; i++) {
+                dogs.Add(new GoldenRetriever(i));
+            }
             BlackWidow<string> spider1 = new BlackWidow<string>("Grrrr", "Olle");
             BlackWidow<int> spider2 = new BlackWidow<int>(10, 5);
 
-            Console.WriteLine("Golden Retriever ({4}) who is a Dog says: {0} and is {1} years old and has the color of {2} with {3} legs.", dog1.makeSound(), dog1.getAge(), dog1.Color, dog1.getLegs(), "n/a");
+            foreach(GoldenRetriever dog in dogs) {
+                Console.Write("Golden Retriever says: {0} and is {1} years old and has the color of {2} with {3} legs: ", dog.makeSound(), dog.getAge(), dog.Color, dog.getLegs());
+                foreach (string s in dog.GetAllPuppies()) {
+                    Console.Write("({0})", s);
+                }
+                Console.WriteLine();
+            }
+
             Console.WriteLine("BlackWidow ({4}) who is a Spider says: {0} and is {1} years old and has the color of {2} with {3} legs.", spider1.makeSound(), spider1.getAge(), spider1.Color, spider1.getLegs(), spider1.getName());
             Console.WriteLine("BlackWidow ({4}) who is a Spider says: {0} and is {1} years old and has the color of {2} with {3} legs.", spider2.makeSound(), spider2.getAge(), spider2.Color, spider2.getLegs(), spider2.Name);
             Console.ReadLine();
